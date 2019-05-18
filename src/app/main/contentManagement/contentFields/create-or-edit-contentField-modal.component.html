@@ -1,0 +1,99 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #contentFieldForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="contentField.id">{{l("EditContentField")}}</span>
+                        <span *ngIf="!contentField.id">{{l("CreateNewContentField")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ContentField_Description">{{l("Description")}} *</label>
+									<input type="text" id="ContentField_Description" class="form-control" [(ngModel)]="contentField.description" name="Description"   minlength="1"  maxlength="255"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_FieldType">{{l("FieldType")}}</label>
+									<select class="form-control" name="FieldType" id="ContentField_FieldType" [(ngModel)]="contentField.fieldType">
+									<option value="1">{{l('Editable')}}</option>
+
+									<option value="2">{{l('Readonly')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_ValueType">{{l("ValueType")}}</label>
+									<select class="form-control" name="ValueType" id="ContentField_ValueType" [(ngModel)]="contentField.valueType">
+									<option value="1">{{l('Text')}}</option>
+
+									<option value="2">{{l('Image')}}</option>
+
+									<option value="3">{{l('Script')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_Language">{{l("Language")}}</label>
+									<select class="form-control" name="Language" id="ContentField_Language" [(ngModel)]="contentField.language">
+									<option value="1">{{l('English')}}</option>
+
+									<option value="2">{{l('German')}}</option>
+
+									<option value="3">{{l('Norwegian')}}</option>
+
+									<option value="4">{{l('Finnish')}}</option>
+
+									<option value="5">{{l('Swedish')}}</option>
+
+									<option value="6">{{l('French')}}</option>
+
+									<option value="7">{{l('Italian')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_ContentType">{{l("ContentType")}}</label>
+									<select class="form-control" name="ContentType" id="ContentField_ContentType" [(ngModel)]="contentField.contentType">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_Value">{{l("Value")}}</label>
+									<input type="text" id="ContentField_Value" class="form-control" [(ngModel)]="contentField.value" name="Value"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ContentField_Tags">{{l("Tags")}}</label>
+									<input type="text" id="ContentField_Tags" class="form-control" [(ngModel)]="contentField.tags" name="Tags"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!contentFieldForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

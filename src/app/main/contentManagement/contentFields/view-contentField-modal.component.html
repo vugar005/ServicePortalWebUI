@@ -1,0 +1,60 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ProjectId")}} :</h6>
+                        {{item.contentField.projectId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Description")}} :</h6>
+                        {{item.contentField.description}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("fieldType")}} :</h6>
+                        {{l('Enum_FieldType' +  fieldType[item.contentField.fieldType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("valueType")}} :</h6>
+                        {{l('Enum_FieldValueType' +  fieldValueType[item.contentField.valueType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("language")}} :</h6>
+                        {{l('Enum_Language' +  language[item.contentField.language])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("contentType")}} :</h6>
+                        {{l('Enum_ContentType' +  contentType[item.contentField.contentType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Value")}} :</h6>
+                        {{item.contentField.value}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Tags")}} :</h6>
+                        {{item.contentField.tags}}
+                    </div>
+                    <div class="col-6 mb-3 text-center margin-bottom-15 margin-top-15">
+                        <img src="{{value}}" width="128" height="128" class="img-thumbnail img-rounded" />
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

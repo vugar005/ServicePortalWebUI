@@ -1,0 +1,389 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Rules")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("RulesHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Rules.Create')" (click)="createRule()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewRule")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getRules()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinProjectIdFilter">{{l("MinMax")}} {{l("ProjectId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinProjectIdFilter" [(ngModel)]="minProjectIdFilter" placeholder="{{l('MinValue')}}" name="minProjectIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxProjectIdFilter" placeholder="{{l('MaxValue')}}" name="maxProjectIdFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<label for="CheckObjectFilterSelect">{{l("CheckObject")}}</label>
+								<select class="form-control" name="CheckObjectFilter" id="CheckObjectFilterSelect" [(ngModel)]="checkObjectFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Ip')}}</option>
+
+										<option value="2">{{l('HostName')}}</option>
+
+										<option value="3">{{l('Country')}}</option>
+
+										<option value="4">{{l('Referer')}}</option>
+
+										<option value="5">{{l('Browser')}}</option>
+
+										<option value="6">{{l('Platform')}}</option>
+
+										<option value="7">{{l('DeviceType')}}</option>
+
+										<option value="8">{{l('DeviceName')}}</option>
+
+										<option value="9">{{l('Loc')}}</option>
+
+										<option value="10">{{l('City')}}</option>
+
+										<option value="11">{{l('Region')}}</option>
+
+										<option value="12">{{l('Postal')}}</option>
+
+										<option value="13">{{l('Phone')}}</option>
+
+										<option value="14">{{l('Crawler')}}</option>
+
+										<option value="15">{{l('CrawlerType')}}</option>
+
+										<option value="16">{{l('EngineType')}}</option>
+
+										<option value="17">{{l('Asn')}}</option>
+
+										<option value="18">{{l('AsnCode')}}</option>
+
+										<option value="19">{{l('AsnName')}}</option>
+
+										<option value="20">{{l('AsnDomain')}}</option>
+
+										<option value="21">{{l('AsnRoute')}}</option>
+
+										<option value="22">{{l('AsnType')}}</option>
+
+										<option value="23">{{l('CompanyName')}}</option>
+
+										<option value="24">{{l('CompanyDomain')}}</option>
+
+										<option value="25">{{l('CompanyType')}}</option>
+
+										<option value="26">{{l('CarrierName')}}</option>
+
+										<option value="27">{{l('CarrierMcc')}}</option>
+
+										<option value="28">{{l('CarrierMnc')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ParamsFilter">{{l("Params")}}</label>
+									<input type="text" class="form-control" id="ParamsFilter" name="paramsFilter" [(ngModel)]="paramsFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="PagesFilterSelect">{{l("Pages")}}</label>
+								<select class="form-control" name="PagesFilter" id="PagesFilterSelect" [(ngModel)]="pagesFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Home')}}</option>
+
+										<option value="2">{{l('About')}}</option>
+
+										<option value="3">{{l('Contact')}}</option>
+
+										<option value="4">{{l('TermsOfUse')}}</option>
+
+										<option value="5">{{l('Privacy')}}</option>
+
+										<option value="6">{{l('Cookie')}}</option>
+
+										<option value="7">{{l('HowWeScore')}}</option>
+
+										<option value="8">{{l('Games')}}</option>
+
+										<option value="9">{{l('Reviews')}}</option>
+
+										<option value="10">{{l('PartnerReview')}}</option>
+
+										<option value="11">{{l('Blackjack')}}</option>
+
+										<option value="12">{{l('Roulette')}}</option>
+
+										<option value="13">{{l('Poker')}}</option>
+
+										<option value="14">{{l('Baccarat')}}</option>
+
+										<option value="15">{{l('Slot')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="ValidationFunctionFilterSelect">{{l("ValidationFunction")}}</label>
+								<select class="form-control" name="ValidationFunctionFilter" id="ValidationFunctionFilterSelect" [(ngModel)]="validationFunctionFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Equals')}}</option>
+
+										<option value="2">{{l('NotEqual')}}</option>
+
+										<option value="3">{{l('Contains')}}</option>
+
+										<option value="4">{{l('DoesNotContain')}}</option>
+
+										<option value="5">{{l('StartsWith')}}</option>
+
+										<option value="6">{{l('DoesNotStartWith')}}</option>
+
+										<option value="7">{{l('EndsWith')}}</option>
+
+										<option value="8">{{l('DoesNotEndWith')}}</option>
+
+										<option value="9">{{l('MatchesRegex')}}</option>
+
+										<option value="10">{{l('DoesNotMatchRegex')}}</option>
+
+										<option value="11">{{l('LessThan')}}</option>
+
+										<option value="12">{{l('GreaterThan')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="ActionTypeFilterSelect">{{l("ActionType")}}</label>
+								<select class="form-control" name="ActionTypeFilter" id="ActionTypeFilterSelect" [(ngModel)]="actionTypeFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('GoOffline')}}</option>
+
+										<option value="2">{{l('GoOnline')}}</option>
+
+
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="AlertFilterSelect">{{l("Alert")}}</label>
+								<select class="form-control" name="AlertFilter" id="AlertFilterSelect" [(ngModel)]="alertFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>	
+							<div class="col-md-3">
+								<label for="StatusFilterSelect">{{l("Status")}}</label>
+								<select class="form-control" name="StatusFilter" id="StatusFilterSelect" [(ngModel)]="statusFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getRules($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Rules.Edit', 'Pages.Rules.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="rule.projectId">
+                                        {{l('ProjectId')}}
+                                        <p-sortIcon field="rule.projectId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.checkObject">
+                                        {{l('CheckObject')}}
+                                        <p-sortIcon field="rule.checkObject"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.value">
+                                        {{l('Value')}}
+                                        <p-sortIcon field="rule.value"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.params">
+                                        {{l('Params')}}
+                                        <p-sortIcon field="rule.params"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.length">
+                                        {{l('Length')}}
+                                        <p-sortIcon field="rule.length"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.pages">
+                                        {{l('Pages')}}
+                                        <p-sortIcon field="rule.pages"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.validationFunction">
+                                        {{l('ValidationFunction')}}
+                                        <p-sortIcon field="rule.validationFunction"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.actionType">
+                                        {{l('ActionType')}}
+                                        <p-sortIcon field="rule.actionType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.extraInfo">
+                                        {{l('ExtraInfo')}}
+                                        <p-sortIcon field="rule.extraInfo"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.alert">
+                                        {{l('Alert')}}
+                                        <p-sortIcon field="rule.alert"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="rule.status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="rule.status"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Rules.Edit', 'Pages.Rules.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewRuleModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.Rules.Edit')"
+														(click)="createOrEditRuleModal.show(record.rule.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.Rules.Delete')"
+														(click)="deleteRule(record.rule)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProjectId')}}</span>
+											{{record.rule.projectId}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('CheckObject')}}</span>
+										{{l('Enum_CheckObject' +  checkObject[record.rule.checkObject])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Value')}}</span>
+											{{record.rule.value}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Params')}}</span>
+											{{record.rule.params}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Length')}}</span>
+											{{record.rule.length}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Pages')}}</span>
+										{{l('Enum_SitePageNames' +  sitePageNames[record.rule.pages])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ValidationFunction')}}</span>
+										{{l('Enum_ValidationFunction' +  validationFunction[record.rule.validationFunction])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ActionType')}}</span>
+										{{l('Enum_ActionType' +  actionType[record.rule.actionType])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ExtraInfo')}}</span>
+											{{record.rule.extraInfo}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Alert')}}</span>
+                                        <div *ngIf="record.rule.alert" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.rule.alert" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Status')}}</span>
+                                        <div *ngIf="record.rule.status" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.rule.status" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getRules($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditRuleModal #createOrEditRuleModal (modalSave)="getRules()"></createOrEditRuleModal>
+    <viewRuleModal #viewRuleModal></viewRuleModal>
+    
+</div>

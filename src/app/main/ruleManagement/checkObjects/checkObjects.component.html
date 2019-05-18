@@ -1,0 +1,220 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("CheckObjects")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("CheckObjectsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.CheckObjects.Create')" (click)="createCheckObject()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewCheckObject")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getCheckObjects()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinProjectIdFilter">{{l("MinMax")}} {{l("ProjectId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinProjectIdFilter" [(ngModel)]="minProjectIdFilter" placeholder="{{l('MinValue')}}" name="minProjectIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxProjectIdFilter" placeholder="{{l('MaxValue')}}" name="maxProjectIdFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="NameFilter">{{l("Name")}}</label>
+									<input type="text" class="form-control" id="NameFilter" name="nameFilter" [(ngModel)]="nameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="SourceFilterSelect">{{l("Source")}}</label>
+								<select class="form-control" name="SourceFilter" id="SourceFilterSelect" [(ngModel)]="sourceFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Header')}}</option>
+
+										<option value="2">{{l('UserAgent')}}</option>
+
+										<option value="3">{{l('IpInfo')}}</option>
+
+										<option value="4">{{l('Custom')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="CheckTypeFilterSelect">{{l("CheckType")}}</label>
+								<select class="form-control" name="CheckTypeFilter" id="CheckTypeFilterSelect" [(ngModel)]="checkTypeFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('DontCheck')}}</option>
+
+										<option value="2">{{l('CheckOnlyBlocked')}}</option>
+
+										<option value="3">{{l('CheckOnlyAllowed')}}</option>
+
+										<option value="4">{{l('CheckBoth')}}</option>
+
+
+								</select>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getCheckObjects($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.CheckObjects.Edit', 'Pages.CheckObjects.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.projectId">
+                                        {{l('ProjectId')}}
+                                        <p-sortIcon field="checkObject.projectId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.nr">
+                                        {{l('Nr')}}
+                                        <p-sortIcon field="checkObject.nr"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="checkObject.name"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.source">
+                                        {{l('Source')}}
+                                        <p-sortIcon field="checkObject.source"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.checkType">
+                                        {{l('CheckType')}}
+                                        <p-sortIcon field="checkObject.checkType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="checkObject.checkNextObject">
+                                        {{l('CheckNextObject')}}
+                                        <p-sortIcon field="checkObject.checkNextObject"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.CheckObjects.Edit', 'Pages.CheckObjects.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewCheckObjectModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.CheckObjects.Edit')"
+														(click)="createOrEditCheckObjectModal.show(record.checkObject.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.CheckObjects.Delete')"
+														(click)="deleteCheckObject(record.checkObject)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProjectId')}}</span>
+											{{record.checkObject.projectId}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Nr')}}</span>
+											{{record.checkObject.nr}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name')}}</span>
+											{{record.checkObject.name}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Source')}}</span>
+										{{l('Enum_CheckObjectSource' +  checkObjectSource[record.checkObject.source])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('CheckType')}}</span>
+										{{l('Enum_CheckType' +  checkType[record.checkObject.checkType])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('CheckNextObject')}}</span>
+                                        <div *ngIf="record.checkObject.checkNextObject" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.checkObject.checkNextObject" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getCheckObjects($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditCheckObjectModal #createOrEditCheckObjectModal (modalSave)="getCheckObjects()"></createOrEditCheckObjectModal>
+    <viewCheckObjectModal #viewCheckObjectModal></viewCheckObjectModal>
+    
+</div>

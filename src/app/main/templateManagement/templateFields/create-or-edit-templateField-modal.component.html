@@ -1,0 +1,56 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #templateFieldForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="templateField.id">{{l("EditTemplateField")}}</span>
+                        <span *ngIf="!templateField.id">{{l("CreateNewTemplateField")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="TemplateField_Name">{{l("Name")}} *</label>
+                        <input type="text" id="TemplateField_Name" class="form-control" [(ngModel)]="templateField.name" name="Name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TemplateField_Description">{{l("Description")}}</label>
+                        <input type="text" id="TemplateField_Description" class="form-control" [(ngModel)]="templateField.description" name="Description" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TemplateField_Type">{{l("Type")}}</label>
+                        <select class="form-control" name="Type" id="TemplateField_Type" [(ngModel)]="templateField.type" required>
+                            <option value="1">{{l('Editable')}}</option>
+
+                            <option value="2">{{l('Readonly')}}</option>
+
+
+                        </select>
+                    </div>
+                    
+                    <!--<div class="form-group">
+                        <label for="TemplateField_TemplateId">{{l("TemplateId")}}</label>
+                        <input type="text" readonly="readonly" id="TemplateField_TemplateId" class="form-control" [(ngModel)]="templateField.templateId" name="TemplateId" />
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="TemplateField_TemplateCode">{{l("TemplateCode")}}</label>
+                        <templatecode-combo name="templateFilter" [(ngModel)]="templateField.templateId" required></templatecode-combo>
+                        <!--<input type="text" readonly="readonly" id="TemplateField_TemplateCode" class="form-control" [(ngModel)]="templateField.templateCode" name="TemplateCode" />-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!templateFieldForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

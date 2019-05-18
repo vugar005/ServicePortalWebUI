@@ -1,0 +1,211 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #ruleForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="rule.id">{{l("EditRule")}}</span>
+                        <span *ngIf="!rule.id">{{l("CreateNewRule")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="Rule_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="Rule_ProjectId" class="form-control" [(ngModel)]="rule.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_CheckObject">{{l("CheckObject")}}</label>
+									<select class="form-control" name="CheckObject" id="Rule_CheckObject" [(ngModel)]="rule.checkObject">
+									<option value="1">{{l('Ip')}}</option>
+
+									<option value="2">{{l('HostName')}}</option>
+
+									<option value="3">{{l('Country')}}</option>
+
+									<option value="4">{{l('Referer')}}</option>
+
+									<option value="5">{{l('Browser')}}</option>
+
+									<option value="6">{{l('Platform')}}</option>
+
+									<option value="7">{{l('DeviceType')}}</option>
+
+									<option value="8">{{l('DeviceName')}}</option>
+
+									<option value="9">{{l('Loc')}}</option>
+
+									<option value="10">{{l('City')}}</option>
+
+									<option value="11">{{l('Region')}}</option>
+
+									<option value="12">{{l('Postal')}}</option>
+
+									<option value="13">{{l('Phone')}}</option>
+
+									<option value="14">{{l('Crawler')}}</option>
+
+									<option value="15">{{l('CrawlerType')}}</option>
+
+									<option value="16">{{l('EngineType')}}</option>
+
+									<option value="17">{{l('Asn')}}</option>
+
+									<option value="18">{{l('AsnCode')}}</option>
+
+									<option value="19">{{l('AsnName')}}</option>
+
+									<option value="20">{{l('AsnDomain')}}</option>
+
+									<option value="21">{{l('AsnRoute')}}</option>
+
+									<option value="22">{{l('AsnType')}}</option>
+
+									<option value="23">{{l('CompanyName')}}</option>
+
+									<option value="24">{{l('CompanyDomain')}}</option>
+
+									<option value="25">{{l('CompanyType')}}</option>
+
+									<option value="26">{{l('CarrierName')}}</option>
+
+									<option value="27">{{l('CarrierMcc')}}</option>
+
+									<option value="28">{{l('CarrierMnc')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_Value">{{l("Value")}} *</label>
+									<input type="text" id="Rule_Value" class="form-control" [(ngModel)]="rule.value" name="Value"   minlength="1"  maxlength="2000"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_Params">{{l("Params")}}</label>
+									<input type="text" id="Rule_Params" class="form-control" [(ngModel)]="rule.params" name="Params"   minlength="1"  maxlength="2000" />
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_Length">{{l("Length")}}</label>
+									<input type="number" id="Rule_Length" class="form-control" [(ngModel)]="rule.length" name="Length"  min="1"  max="255"/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_Pages">{{l("Pages")}}</label>
+									<select class="form-control" name="Pages" id="Rule_Pages" [(ngModel)]="rule.pages">
+									<option value="1">{{l('Home')}}</option>
+
+									<option value="2">{{l('About')}}</option>
+
+									<option value="3">{{l('Contact')}}</option>
+
+									<option value="4">{{l('TermsOfUse')}}</option>
+
+									<option value="5">{{l('Privacy')}}</option>
+
+									<option value="6">{{l('Cookie')}}</option>
+
+									<option value="7">{{l('HowWeScore')}}</option>
+
+									<option value="8">{{l('Games')}}</option>
+
+									<option value="9">{{l('Reviews')}}</option>
+
+									<option value="10">{{l('PartnerReview')}}</option>
+
+									<option value="11">{{l('Blackjack')}}</option>
+
+									<option value="12">{{l('Roulette')}}</option>
+
+									<option value="13">{{l('Poker')}}</option>
+
+									<option value="14">{{l('Baccarat')}}</option>
+
+									<option value="15">{{l('Slot')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_ValidationFunction">{{l("ValidationFunction")}}</label>
+									<select class="form-control" name="ValidationFunction" id="Rule_ValidationFunction" [(ngModel)]="rule.validationFunction">
+									<option value="1">{{l('Equals')}}</option>
+
+									<option value="2">{{l('NotEqual')}}</option>
+
+									<option value="3">{{l('Contains')}}</option>
+
+									<option value="4">{{l('DoesNotContain')}}</option>
+
+									<option value="5">{{l('StartsWith')}}</option>
+
+									<option value="6">{{l('DoesNotStartWith')}}</option>
+
+									<option value="7">{{l('EndsWith')}}</option>
+
+									<option value="8">{{l('DoesNotEndWith')}}</option>
+
+									<option value="9">{{l('MatchesRegex')}}</option>
+
+									<option value="10">{{l('DoesNotMatchRegex')}}</option>
+
+									<option value="11">{{l('LessThan')}}</option>
+
+									<option value="12">{{l('GreaterThan')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_ActionType">{{l("ActionType")}}</label>
+									<select class="form-control" name="ActionType" id="Rule_ActionType" [(ngModel)]="rule.actionType">
+									<option value="1">{{l('GoOffline')}}</option>
+
+									<option value="2">{{l('GoOnline')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rule_ExtraInfo">{{l("ExtraInfo")}}</label>
+									<input type="text" id="Rule_ExtraInfo" class="form-control" [(ngModel)]="rule.extraInfo" name="ExtraInfo"   minlength="1"  maxlength="255" />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Rule_Alert" class="m-checkbox">
+										<input id="Rule_Alert" type="checkbox" name="Alert" [(ngModel)]="rule.alert"> 
+										{{l("Alert")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Rule_Status" class="m-checkbox">
+										<input id="Rule_Status" type="checkbox" name="Status" [(ngModel)]="rule.status"> 
+										{{l("Status")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!ruleForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

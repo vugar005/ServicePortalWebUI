@@ -1,0 +1,70 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ProjectId")}} :</h6>
+                        {{item.rule.projectId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("checkObject")}} :</h6>
+                        {{l('Enum_CheckObjectName' +  checkObjectName[item.rule.checkObject])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Value")}} :</h6>
+                        {{item.rule.value}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Params")}} :</h6>
+                        {{item.rule.params}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Length")}} :</h6>
+                        {{item.rule.length}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("pages")}} :</h6>
+                        {{l('Enum_SitePageNames' +  sitePageNames[item.rule.pages])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("validationFunction")}} :</h6>
+                        {{l('Enum_ValidationFunction' +  validationFunction[item.rule.validationFunction])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("actionType")}} :</h6>
+                        {{l('Enum_ActionType' +  actionType[item.rule.actionType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ExtraInfo")}} :</h6>
+                        {{item.rule.extraInfo}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Alert")}} :</h6>
+                        {{item.rule.alert}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Status")}} :</h6>
+                        {{item.rule.status}}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

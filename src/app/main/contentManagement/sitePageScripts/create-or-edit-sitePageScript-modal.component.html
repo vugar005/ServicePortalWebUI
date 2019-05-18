@@ -1,0 +1,112 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #sitePageScriptForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="sitePageScript.id">{{l("EditSitePageScript")}}</span>
+                        <span *ngIf="!sitePageScript.id">{{l("CreateNewSitePageScript")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="SitePageScript_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="SitePageScript_ProjectId" class="form-control" [(ngModel)]="sitePageScript.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePageScript_PageName">{{l("PageName")}}</label>
+									<select class="form-control" name="PageName" id="SitePageScript_PageName" [(ngModel)]="sitePageScript.pageName">
+									<option value="1">{{l('Home')}}</option>
+
+									<option value="2">{{l('About')}}</option>
+
+									<option value="3">{{l('Contact')}}</option>
+
+									<option value="4">{{l('TermsOfUse')}}</option>
+
+									<option value="5">{{l('Privacy')}}</option>
+
+									<option value="6">{{l('Cookie')}}</option>
+
+									<option value="7">{{l('HowWeScore')}}</option>
+
+									<option value="8">{{l('Games')}}</option>
+
+									<option value="9">{{l('Reviews')}}</option>
+
+									<option value="10">{{l('PartnerReview')}}</option>
+
+									<option value="11">{{l('Blackjack')}}</option>
+
+									<option value="12">{{l('Roulette')}}</option>
+
+									<option value="13">{{l('Poker')}}</option>
+
+									<option value="14">{{l('Baccarat')}}</option>
+
+									<option value="15">{{l('Slot')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePageScript_Nr">{{l("Nr")}}</label>
+									<input type="number" id="SitePageScript_Nr" class="form-control" [(ngModel)]="sitePageScript.nr" name="Nr"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePageScript_Position">{{l("Position")}}</label>
+									<select class="form-control" name="Position" id="SitePageScript_Position" [(ngModel)]="sitePageScript.position">
+									<option value="1">{{l('Header')}}</option>
+
+									<option value="2">{{l('BodyTop')}}</option>
+
+									<option value="3">{{l('BodyBottom')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePageScript_ContentType">{{l("ContentType")}}</label>
+									<select class="form-control" name="ContentType" id="SitePageScript_ContentType" [(ngModel)]="sitePageScript.contentType">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePageScript_Value">{{l("Value")}}</label>
+									<input type="text" id="SitePageScript_Value" class="form-control" [(ngModel)]="sitePageScript.value" name="Value"    />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="SitePageScript_Status" class="m-checkbox">
+										<input id="SitePageScript_Status" type="checkbox" name="Status" [(ngModel)]="sitePageScript.status"> 
+										{{l("Status")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!sitePageScriptForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

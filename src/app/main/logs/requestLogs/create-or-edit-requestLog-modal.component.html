@@ -1,0 +1,280 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #requestLogForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="requestLog.id">{{l("EditRequestLog")}}</span>
+                        <span *ngIf="!requestLog.id">{{l("CreateNewRequestLog")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="RequestLog_RequestQuery">{{l("RequestQuery")}}</label>
+									<input type="text" id="RequestLog_RequestQuery" class="form-control" [(ngModel)]="requestLog.requestQuery" name="RequestQuery"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_RequestBody">{{l("RequestBody")}}</label>
+									<input type="text" id="RequestLog_RequestBody" class="form-control" [(ngModel)]="requestLog.requestBody" name="RequestBody"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_RequestHeader">{{l("RequestHeader")}}</label>
+									<input type="text" id="RequestLog_RequestHeader" class="form-control" [(ngModel)]="requestLog.requestHeader" name="RequestHeader"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_UserAgent">{{l("UserAgent")}}</label>
+									<input type="text" id="RequestLog_UserAgent" class="form-control" [(ngModel)]="requestLog.userAgent" name="UserAgent"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Asn">{{l("Asn")}}</label>
+									<input type="text" id="RequestLog_Asn" class="form-control" [(ngModel)]="requestLog.asn" name="Asn"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Referer">{{l("Referer")}}</label>
+									<input type="text" id="RequestLog_Referer" class="form-control" [(ngModel)]="requestLog.referer" name="Referer"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_RefererByRule">{{l("RefererByRule")}}</label>
+									<input type="text" id="RequestLog_RefererByRule" class="form-control" [(ngModel)]="requestLog.refererByRule" name="RefererByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_EngineType">{{l("EngineType")}}</label>
+									<input type="text" id="RequestLog_EngineType" class="form-control" [(ngModel)]="requestLog.engineType" name="EngineType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_EngineTypeByRule">{{l("EngineTypeByRule")}}</label>
+									<input type="text" id="RequestLog_EngineTypeByRule" class="form-control" [(ngModel)]="requestLog.engineTypeByRule" name="EngineTypeByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Crawler">{{l("Crawler")}}</label>
+									<input type="text" id="RequestLog_Crawler" class="form-control" [(ngModel)]="requestLog.crawler" name="Crawler"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CrawlerByRule">{{l("CrawlerByRule")}}</label>
+									<input type="text" id="RequestLog_CrawlerByRule" class="form-control" [(ngModel)]="requestLog.crawlerByRule" name="CrawlerByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CrawlerType">{{l("CrawlerType")}}</label>
+									<input type="text" id="RequestLog_CrawlerType" class="form-control" [(ngModel)]="requestLog.crawlerType" name="CrawlerType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CrawlerTypeByRule">{{l("CrawlerTypeByRule")}}</label>
+									<input type="text" id="RequestLog_CrawlerTypeByRule" class="form-control" [(ngModel)]="requestLog.crawlerTypeByRule" name="CrawlerTypeByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_DeviceName">{{l("DeviceName")}}</label>
+									<input type="text" id="RequestLog_DeviceName" class="form-control" [(ngModel)]="requestLog.deviceName" name="DeviceName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_DeviceNameByRule">{{l("DeviceNameByRule")}}</label>
+									<input type="text" id="RequestLog_DeviceNameByRule" class="form-control" [(ngModel)]="requestLog.deviceNameByRule" name="DeviceNameByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_DeviceType">{{l("DeviceType")}}</label>
+									<select class="form-control" name="DeviceType" id="RequestLog_DeviceType" [(ngModel)]="requestLog.deviceType">
+									<option value="1">{{l('Desktop')}}</option>
+
+									<option value="2">{{l('Tablet')}}</option>
+
+									<option value="3">{{l('Mobile')}}</option>
+
+									<option value="4">{{l('Tv')}}</option>
+
+									<option value="5">{{l('Console')}}</option>
+
+									<option value="6">{{l('Car')}}</option>
+
+									<option value="7">{{l('Others')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_DeviceTypeByRule">{{l("DeviceTypeByRule")}}</label>
+									<select class="form-control" name="DeviceTypeByRule" id="RequestLog_DeviceTypeByRule" [(ngModel)]="requestLog.deviceTypeByRule">
+									<option value="1">{{l('Desktop')}}</option>
+
+									<option value="2">{{l('Tablet')}}</option>
+
+									<option value="3">{{l('Mobile')}}</option>
+
+									<option value="4">{{l('Tv')}}</option>
+
+									<option value="5">{{l('Console')}}</option>
+
+									<option value="6">{{l('Car')}}</option>
+
+									<option value="7">{{l('Others')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Platform">{{l("Platform")}}</label>
+									<input type="text" id="RequestLog_Platform" class="form-control" [(ngModel)]="requestLog.platform" name="Platform"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_PlatformByRule">{{l("PlatformByRule")}}</label>
+									<input type="text" id="RequestLog_PlatformByRule" class="form-control" [(ngModel)]="requestLog.platformByRule" name="PlatformByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Browser">{{l("Browser")}}</label>
+									<input type="text" id="RequestLog_Browser" class="form-control" [(ngModel)]="requestLog.browser" name="Browser"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_BrowserByRule">{{l("BrowserByRule")}}</label>
+									<input type="text" id="RequestLog_BrowserByRule" class="form-control" [(ngModel)]="requestLog.browserByRule" name="BrowserByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CountryByRule">{{l("CountryByRule")}}</label>
+									<input type="text" id="RequestLog_CountryByRule" class="form-control" [(ngModel)]="requestLog.countryByRule" name="CountryByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Location">{{l("Location")}}</label>
+									<input type="text" id="RequestLog_Location" class="form-control" [(ngModel)]="requestLog.location" name="Location"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_HostName">{{l("HostName")}}</label>
+									<input type="text" id="RequestLog_HostName" class="form-control" [(ngModel)]="requestLog.hostName" name="HostName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_HostNameByRule">{{l("HostNameByRule")}}</label>
+									<input type="text" id="RequestLog_HostNameByRule" class="form-control" [(ngModel)]="requestLog.hostNameByRule" name="HostNameByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyDomain">{{l("CompanyDomain")}}</label>
+									<input type="text" id="RequestLog_CompanyDomain" class="form-control" [(ngModel)]="requestLog.companyDomain" name="CompanyDomain"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyDomainByRule">{{l("CompanyDomainByRule")}}</label>
+									<input type="text" id="RequestLog_CompanyDomainByRule" class="form-control" [(ngModel)]="requestLog.companyDomainByRule" name="CompanyDomainByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_PageNr">{{l("PageNr")}}</label>
+									<input type="number" id="RequestLog_PageNr" class="form-control" [(ngModel)]="requestLog.pageNr" name="PageNr"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CalledUrl">{{l("CalledUrl")}}</label>
+									<input type="text" id="RequestLog_CalledUrl" class="form-control" [(ngModel)]="requestLog.calledUrl" name="CalledUrl"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CallerIp">{{l("CallerIp")}}</label>
+									<input type="text" id="RequestLog_CallerIp" class="form-control" [(ngModel)]="requestLog.callerIp" name="CallerIp"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CallerIpByRule">{{l("CallerIpByRule")}}</label>
+									<input type="text" id="RequestLog_CallerIpByRule" class="form-control" [(ngModel)]="requestLog.callerIpByRule" name="CallerIpByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyName">{{l("CompanyName")}}</label>
+									<input type="text" id="RequestLog_CompanyName" class="form-control" [(ngModel)]="requestLog.companyName" name="CompanyName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyNameByRule">{{l("CompanyNameByRule")}}</label>
+									<input type="text" id="RequestLog_CompanyNameByRule" class="form-control" [(ngModel)]="requestLog.companyNameByRule" name="CompanyNameByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyType">{{l("CompanyType")}}</label>
+									<input type="text" id="RequestLog_CompanyType" class="form-control" [(ngModel)]="requestLog.companyType" name="CompanyType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_CompanyTypeByRule">{{l("CompanyTypeByRule")}}</label>
+									<input type="text" id="RequestLog_CompanyTypeByRule" class="form-control" [(ngModel)]="requestLog.companyTypeByRule" name="CompanyTypeByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Region">{{l("Region")}}</label>
+									<input type="text" id="RequestLog_Region" class="form-control" [(ngModel)]="requestLog.region" name="Region"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_RegionByRule">{{l("RegionByRule")}}</label>
+									<input type="text" id="RequestLog_RegionByRule" class="form-control" [(ngModel)]="requestLog.regionByRule" name="RegionByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_AsnByRule">{{l("AsnByRule")}}</label>
+									<input type="text" id="RequestLog_AsnByRule" class="form-control" [(ngModel)]="requestLog.asnByRule" name="AsnByRule"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_AsnCode">{{l("AsnCode")}}</label>
+									<input type="text" id="RequestLog_AsnCode" class="form-control" [(ngModel)]="requestLog.asnCode" name="AsnCode"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_AsnName">{{l("AsnName")}}</label>
+									<input type="text" id="RequestLog_AsnName" class="form-control" [(ngModel)]="requestLog.asnName" name="AsnName"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_AsnDomain">{{l("AsnDomain")}}</label>
+									<input type="text" id="RequestLog_AsnDomain" class="form-control" [(ngModel)]="requestLog.asnDomain" name="AsnDomain"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_AsnType">{{l("AsnType")}}</label>
+									<input type="text" id="RequestLog_AsnType" class="form-control" [(ngModel)]="requestLog.asnType" name="AsnType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Cause">{{l("Cause")}}</label>
+									<input type="text" id="RequestLog_Cause" class="form-control" [(ngModel)]="requestLog.cause" name="Cause"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="RequestLog_Note">{{l("Note")}}</label>
+									<input type="text" id="RequestLog_Note" class="form-control" [(ngModel)]="requestLog.note" name="Note"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!requestLogForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

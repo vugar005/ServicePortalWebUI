@@ -1,0 +1,232 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Projects")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("ProjectsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Projects.Create')" (click)="createProject()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewProject")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getProjects()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="m-separator m-separator--dashed"></div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="CodeFilter">{{l("Code")}}</label>
+                                    <projectcode-combo name="projectFilter" [(ngModel)]="project"></projectcode-combo>
+                                    <!--<input type="text" class="form-control" id="CodeFilter" name="codeFilter" [(ngModel)]="codeFilter">-->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="DescriptionFilter">{{l("Description")}}</label>
+                                    <input type="text" class="form-control" id="DescriptionFilter" name="descriptionFilter" [(ngModel)]="descriptionFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="CountryFilter">{{l("Country")}}</label>
+                                    <select class="form-control" name="CountryFilter" id="CountryFilterSelect" [(ngModel)]="countryFilter">
+                                        <option value="-1">{{l("All")}}</option>
+                                        <option value="AU">{{l('Australia')}}</option>
+                                        <option value="AT">{{l('Austria')}}</option>
+                                        <option value="CA">{{l('Canada')}}</option>
+                                        <option value="FI">{{l('Finland')}}</option>
+                                        <option value="DE">{{l('Germany')}}</option>
+                                        <option value="SE">{{l('India')}}</option>
+                                        <option value="NL">{{l('Netherlands')}}</option>
+                                        <option value="NZ">{{l('New Zealand')}}</option>
+                                        <option value="NO">{{l('Norway')}}</option>
+                                        <option value="SE">{{l('Sweden')}}</option>
+                                        <option value="CH">{{l('Switzerland')}}</option>
+                                    </select>
+                                    <!--<input type="text" class="form-control" id="CountryFilter" name="countryFilter" [(ngModel)]="countryFilter">-->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="LanguagesFilterSelect">{{l("Languages")}}</label>
+                                <select class="form-control" name="LanguagesFilter" id="LanguagesFilterSelect" [(ngModel)]="languagesFilter">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="1">{{l('English')}}</option>
+                                    <option value="2">{{l('German')}}</option>
+                                    <option value="3">{{l('Norwegian')}}</option>
+                                    <option value="4">{{l('Finnish')}}</option>
+                                    <option value="5">{{l('Swedish')}}</option>
+                                    <option value="6">{{l('French')}}</option>
+                                    <option value="7">{{l('Italian')}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="TagsFilter">{{l("Tags")}}</label>
+                                    <input type="text" class="form-control" id="TagsFilter" name="tagsFilter" [(ngModel)]="tagsFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="StatusFilterSelect">{{l("Status")}}</label>
+                                <select class="form-control" name="StatusFilter" id="StatusFilterSelect" [(ngModel)]="statusFilter">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="0">{{l("Passive")}}</option>
+                                    <option value="1">{{l("Active")}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getProjects($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="project.code">
+                                        {{l('Code')}}
+                                        <p-sortIcon field="project.code"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="project.description">
+                                        {{l('Description')}}
+                                        <p-sortIcon field="project.description"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="project.notes">
+                                        {{l('Notes')}}
+                                        <p-sortIcon field="project.notes"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="project.country">
+                                        {{l('Country')}}
+                                        <p-sortIcon field="project.country"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="project.languages">
+                                        {{l('Languages')}}
+                                        <p-sortIcon field="project.languages"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="project.status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="project.status"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="viewProjectModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Edit')"
+                                                       (click)="createOrEditProjectModal.show(record.project.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Delete')"
+                                                       (click)="deleteProject(record.project)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Code')}}</span>
+                                        {{record.project.code}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Description')}}</span>
+                                        {{record.project.description}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Notes')}}</span>
+                                        {{record.project.notes}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Country')}}</span>
+                                        {{record.project.country}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Languages')}}</span>
+                                        {{l('Enum_Language' +  language[record.project.languages])}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Status')}}</span>
+                                        <div *ngIf="record.project.status" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+                                        <div *ngIf="!record.project.status" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getProjects($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditProjectModal #createOrEditProjectModal (modalSave)="getProjects()"></createOrEditProjectModal>
+    <viewProjectModal #viewProjectModal></viewProjectModal>
+    
+</div>

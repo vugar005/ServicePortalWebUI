@@ -1,0 +1,253 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("SmtpSettings")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("SmtpSettingsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.SmtpSettings.Create')" (click)="createSmtpSetting()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewSmtpSetting")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getSmtpSettings()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinProjectIdFilter">{{l("MinMax")}} {{l("ProjectId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinProjectIdFilter" [(ngModel)]="minProjectIdFilter" placeholder="{{l('MinValue')}}" name="minProjectIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxProjectIdFilter" placeholder="{{l('MaxValue')}}" name="maxProjectIdFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="HostFilter">{{l("Host")}}</label>
+									<input type="text" class="form-control" id="HostFilter" name="hostFilter" [(ngModel)]="hostFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPortFilter">{{l("MinMax")}} {{l("Port")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPortFilter" [(ngModel)]="minPortFilter" placeholder="{{l('MinValue')}}" name="minPortFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPortFilter" placeholder="{{l('MaxValue')}}" name="maxPortFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="EnableSslFilterSelect">{{l("EnableSsl")}}</label>
+								<select class="form-control" name="EnableSslFilter" id="EnableSslFilterSelect" [(ngModel)]="enableSslFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserNameFilter">{{l("UserName")}}</label>
+									<input type="text" class="form-control" id="UserNameFilter" name="userNameFilter" [(ngModel)]="userNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="PasswordFilter">{{l("Password")}}</label>
+									<input type="text" class="form-control" id="PasswordFilter" name="passwordFilter" [(ngModel)]="passwordFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinTimeoutFilter">{{l("MinMax")}} {{l("Timeout")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinTimeoutFilter" [(ngModel)]="minTimeoutFilter" placeholder="{{l('MinValue')}}" name="minTimeoutFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTimeoutFilter" placeholder="{{l('MaxValue')}}" name="maxTimeoutFilter" />
+									</div>
+                                </div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="StatusFilterSelect">{{l("Status")}}</label>
+								<select class="form-control" name="StatusFilter" id="StatusFilterSelect" [(ngModel)]="statusFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getSmtpSettings($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.SmtpSettings.Edit', 'Pages.SmtpSettings.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.projectId">
+                                        {{l('ProjectId')}}
+                                        <p-sortIcon field="smtpSetting.projectId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.host">
+                                        {{l('Host')}}
+                                        <p-sortIcon field="smtpSetting.host"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.port">
+                                        {{l('Port')}}
+                                        <p-sortIcon field="smtpSetting.port"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.enableSsl">
+                                        {{l('EnableSsl')}}
+                                        <p-sortIcon field="smtpSetting.enableSsl"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.userName">
+                                        {{l('UserName')}}
+                                        <p-sortIcon field="smtpSetting.userName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.password">
+                                        {{l('Password')}}
+                                        <p-sortIcon field="smtpSetting.password"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.timeout">
+                                        {{l('Timeout')}}
+                                        <p-sortIcon field="smtpSetting.timeout"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="smtpSetting.status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="smtpSetting.status"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.SmtpSettings.Edit', 'Pages.SmtpSettings.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewSmtpSettingModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.SmtpSettings.Edit')"
+														(click)="createOrEditSmtpSettingModal.show(record.smtpSetting.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.SmtpSettings.Delete')"
+														(click)="deleteSmtpSetting(record.smtpSetting)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProjectId')}}</span>
+											{{record.smtpSetting.projectId}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Host')}}</span>
+											{{record.smtpSetting.host}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Port')}}</span>
+											{{record.smtpSetting.port}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('EnableSsl')}}</span>
+                                        <div *ngIf="record.smtpSetting.enableSsl" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.smtpSetting.enableSsl" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('UserName')}}</span>
+											{{record.smtpSetting.userName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Password')}}</span>
+											{{record.smtpSetting.password}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Timeout')}}</span>
+											{{record.smtpSetting.timeout}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Status')}}</span>
+                                        <div *ngIf="record.smtpSetting.status" class="text-center"><i class="fa fa-check-circle m--font-success" title="True"></i></div>
+										<div *ngIf="!record.smtpSetting.status" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getSmtpSettings($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditSmtpSettingModal #createOrEditSmtpSettingModal (modalSave)="getSmtpSettings()"></createOrEditSmtpSettingModal>
+    <viewSmtpSettingModal #viewSmtpSettingModal></viewSmtpSettingModal>
+    
+</div>

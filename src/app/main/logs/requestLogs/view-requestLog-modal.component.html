@@ -1,0 +1,210 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ProjecId")}} :</h6>
+                        {{item.requestLog.projecId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RequestQuery")}} :</h6>
+                        {{item.requestLog.requestQuery}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RequestBody")}} :</h6>
+                        {{item.requestLog.requestBody}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RequestHeader")}} :</h6>
+                        {{item.requestLog.requestHeader}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("UserAgent")}} :</h6>
+                        {{item.requestLog.userAgent}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Asn")}} :</h6>
+                        {{item.requestLog.asn}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Referer")}} :</h6>
+                        {{item.requestLog.referer}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RefererByRule")}} :</h6>
+                        {{item.requestLog.refererByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("EngineType")}} :</h6>
+                        {{item.requestLog.engineType}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("EngineTypeByRule")}} :</h6>
+                        {{item.requestLog.engineTypeByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Crawler")}} :</h6>
+                        {{item.requestLog.crawler}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CrawlerByRule")}} :</h6>
+                        {{item.requestLog.crawlerByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CrawlerType")}} :</h6>
+                        {{item.requestLog.crawlerType}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CrawlerTypeByRule")}} :</h6>
+                        {{item.requestLog.crawlerTypeByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("DeviceName")}} :</h6>
+                        {{item.requestLog.deviceName}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("DeviceNameByRule")}} :</h6>
+                        {{item.requestLog.deviceNameByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("deviceType")}} :</h6>
+                        {{l('Enum_DeviceType' +  deviceType[item.requestLog.deviceType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("deviceTypeByRule")}} :</h6>
+                        {{l('Enum_DeviceType' +  deviceType[item.requestLog.deviceTypeByRule])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Platform")}} :</h6>
+                        {{item.requestLog.platform}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("PlatformByRule")}} :</h6>
+                        {{item.requestLog.platformByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Browser")}} :</h6>
+                        {{item.requestLog.browser}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("BrowserByRule")}} :</h6>
+                        {{item.requestLog.browserByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Country")}} :</h6>
+                        {{item.requestLog.country}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CountryByRule")}} :</h6>
+                        {{item.requestLog.countryByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Location")}} :</h6>
+                        {{item.requestLog.location}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("HostName")}} :</h6>
+                        {{item.requestLog.hostName}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("HostNameByRule")}} :</h6>
+                        {{item.requestLog.hostNameByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyDomain")}} :</h6>
+                        {{item.requestLog.companyDomain}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyDomainByRule")}} :</h6>
+                        {{item.requestLog.companyDomainByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("PageNr")}} :</h6>
+                        {{item.requestLog.pageNr}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CalledUrl")}} :</h6>
+                        {{item.requestLog.calledUrl}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CallerIp")}} :</h6>
+                        {{item.requestLog.callerIp}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CallerIpByRule")}} :</h6>
+                        {{item.requestLog.callerIpByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyName")}} :</h6>
+                        {{item.requestLog.companyName}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyNameByRule")}} :</h6>
+                        {{item.requestLog.companyNameByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyType")}} :</h6>
+                        {{item.requestLog.companyType}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CompanyTypeByRule")}} :</h6>
+                        {{item.requestLog.companyTypeByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Region")}} :</h6>
+                        {{item.requestLog.region}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RegionByRule")}} :</h6>
+                        {{item.requestLog.regionByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("AsnByRule")}} :</h6>
+                        {{item.requestLog.asnByRule}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("AsnCode")}} :</h6>
+                        {{item.requestLog.asnCode}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("AsnName")}} :</h6>
+                        {{item.requestLog.asnName}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("AsnDomain")}} :</h6>
+                        {{item.requestLog.asnDomain}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("AsnType")}} :</h6>
+                        {{item.requestLog.asnType}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Cause")}} :</h6>
+                        {{item.requestLog.cause}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Note")}} :</h6>
+                        {{item.requestLog.note}}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

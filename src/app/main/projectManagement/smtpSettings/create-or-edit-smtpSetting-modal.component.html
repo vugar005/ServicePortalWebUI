@@ -1,0 +1,74 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #smtpSettingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="smtpSetting.id">{{l("EditSmtpSetting")}}</span>
+                        <span *ngIf="!smtpSetting.id">{{l("CreateNewSmtpSetting")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="SmtpSetting_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="SmtpSetting_ProjectId" class="form-control" [(ngModel)]="smtpSetting.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SmtpSetting_Host">{{l("Host")}} *</label>
+									<input type="text" id="SmtpSetting_Host" class="form-control" [(ngModel)]="smtpSetting.host" name="Host"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SmtpSetting_Port">{{l("Port")}}</label>
+									<input type="number" id="SmtpSetting_Port" class="form-control" [(ngModel)]="smtpSetting.port" name="Port"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="SmtpSetting_EnableSsl" class="m-checkbox">
+										<input id="SmtpSetting_EnableSsl" type="checkbox" name="EnableSsl" [(ngModel)]="smtpSetting.enableSsl"> 
+										{{l("EnableSsl")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="SmtpSetting_UserName">{{l("UserName")}} *</label>
+									<input type="text" id="SmtpSetting_UserName" class="form-control" [(ngModel)]="smtpSetting.userName" name="UserName"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SmtpSetting_Password">{{l("Password")}} *</label>
+									<input type="text" id="SmtpSetting_Password" class="form-control" [(ngModel)]="smtpSetting.password" name="Password"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SmtpSetting_Timeout">{{l("Timeout")}}</label>
+									<input type="number" id="SmtpSetting_Timeout" class="form-control" [(ngModel)]="smtpSetting.timeout" name="Timeout"  />
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="SmtpSetting_Status" class="m-checkbox">
+										<input id="SmtpSetting_Status" type="checkbox" name="Status" [(ngModel)]="smtpSetting.status"> 
+										{{l("Status")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!smtpSettingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

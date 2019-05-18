@@ -1,0 +1,89 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #siteConfigurationForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="siteConfiguration.id">{{l("EditSiteConfiguration")}}</span>
+                        <span *ngIf="!siteConfiguration.id">{{l("CreateNewSiteConfiguration")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+                    <div class="form-group">
+                        <label for="SiteConfiguration_ProjectCodeId">{{l("ProjectCodeId")}}</label>
+                        <projectcode-combo name="projectFilter" [(ngModel)]="siteConfiguration.projectCodeId"></projectcode-combo>
+                        <!--<input type="number" id="SiteConfiguration_ProjectCodeId" class="form-control" [(ngModel)]="siteConfiguration.projectCodeId" name="ProjectCodeId" />-->
+                    </div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_Name">{{l("Name")}} *</label>
+									<input type="text" id="SiteConfiguration_Name" class="form-control" [(ngModel)]="siteConfiguration.name" name="Name"   minlength="1"  maxlength="255"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_Status">{{l("Status")}}</label>
+									<select class="form-control" name="Status" id="SiteConfiguration_Status" [(ngModel)]="siteConfiguration.status">
+									<option value="0">{{l('NotAvailable')}}</option>
+									<option value="1">{{l('Admin')}}</option>
+									<option value="2">{{l('Offline')}}</option>
+									<option value="3">{{l('Online')}}</option>
+									<option value="4">{{l('Targeted')}}</option>
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_RemarkablePeriodSeconds">{{l("RemarkablePeriodSeconds")}}</label>
+									<input type="number" id="SiteConfiguration_RemarkablePeriodSeconds" class="form-control" [(ngModel)]="siteConfiguration.remarkablePeriodSeconds" name="RemarkablePeriodSeconds"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_MaxRemarkableRequestCount">{{l("MaxRemarkableRequestCount")}}</label>
+									<input type="number" id="SiteConfiguration_MaxRemarkableRequestCount" class="form-control" [(ngModel)]="siteConfiguration.maxRemarkableRequestCount" name="MaxRemarkableRequestCount"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_DelaySeconds">{{l("DelaySeconds")}}</label>
+									<input type="number" id="SiteConfiguration_DelaySeconds" class="form-control" [(ngModel)]="siteConfiguration.delaySeconds" name="DelaySeconds"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_MaxCallCountPerUser">{{l("MaxCallCountPerUser")}}</label>
+									<input type="number" id="SiteConfiguration_MaxCallCountPerUser" class="form-control" [(ngModel)]="siteConfiguration.maxCallCountPerUser" name="MaxCallCountPerUser"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SiteConfiguration_DefaultLanguage">{{l("DefaultLanguage")}}</label>
+									<select class="form-control" name="DefaultLanguage" id="SiteConfiguration_DefaultLanguage" [(ngModel)]="siteConfiguration.defaultLanguage">
+									<option value="1">{{l('English')}}</option>
+
+									<option value="2">{{l('German')}}</option>
+
+									<option value="3">{{l('Norwegian')}}</option>
+
+									<option value="4">{{l('Finnish')}}</option>
+
+									<option value="5">{{l('Swedish')}}</option>
+
+									<option value="6">{{l('French')}}</option>
+
+									<option value="7">{{l('Italian')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!siteConfigurationForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

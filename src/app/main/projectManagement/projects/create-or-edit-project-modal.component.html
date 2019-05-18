@@ -1,0 +1,88 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #projectForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="project.id">{{l("EditProject")}}</span>
+                        <span *ngIf="!project.id">{{l("CreateNewProject")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Project_Code">{{l("Code")}} *</label>
+                        <input type="text" id="Project_Code" class="form-control" [(ngModel)]="project.code" name="Code" minlength="1" maxlength="50" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Project_Description">{{l("Description")}} *</label>
+                        <input type="text" id="Project_Description" class="form-control" [(ngModel)]="project.description" name="Description" minlength="1" maxlength="255" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Project_Country">{{l("Country")}} *</label>
+                        <!--<input type="text" id="Project_Country" class="form-control" [(ngModel)]="project.country" name="Country" minlength="1" maxlength="50" required />-->
+                        <select class="form-control" name="Country" id="Project_Country" [(ngModel)]="project.country">
+                            <option value="-1">{{l("All")}}</option>
+                            <option value="AU">{{l('Australia')}}</option>
+                            <option value="AT">{{l('Austria')}}</option>
+                            <option value="CA">{{l('Canada')}}</option>
+                            <option value="FI">{{l('Finland')}}</option>
+                            <option value="DE">{{l('Germany')}}</option>
+                            <option value="SE">{{l('India')}}</option>
+                            <option value="NL">{{l('Netherlands')}}</option>
+                            <option value="NZ">{{l('New Zealand')}}</option>
+                            <option value="NO">{{l('Norway')}}</option>
+                            <option value="SE">{{l('Sweden')}}</option>
+                            <option value="CH">{{l('Switzerland')}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Project_Languages">{{l("Languages")}}</label>
+                        <select class="form-control" name="Languages" id="Project_Languages" [(ngModel)]="project.languages">
+                            <option value="1">{{l('English')}}</option>
+                            <option value="2">{{l('German')}}</option>
+                            <option value="3">{{l('Norwegian')}}</option>
+                            <option value="4">{{l('Finnish')}}</option>
+                            <option value="5">{{l('Swedish')}}</option>
+                            <option value="6">{{l('French')}}</option>
+                            <option value="7">{{l('Italian')}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Project_Template">{{l("Template")}}</label>
+                        <input type="text" id="Project_Template" class="form-control" [(ngModel)]="project.template" name="Template" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Project_Notes">{{l("Notes")}}</label>
+                        <input type="text" id="Project_Notes" class="form-control" [(ngModel)]="project.notes" name="Notes" minlength="1" maxlength="255" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Project_Tags">{{l("Tags")}}</label>
+                        <input type="text" id="Project_Tags" class="form-control" [(ngModel)]="project.tags" name="Tags" minlength="1" maxlength="1000" />
+                    </div>
+
+                    <br /><div class="m-checkbox-list">
+                        <label for="Project_Status" class="m-checkbox">
+                            <input id="Project_Status" type="checkbox" name="Status" [(ngModel)]="project.status">
+                            {{l("Status")}}
+                            <span></span>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!projectForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

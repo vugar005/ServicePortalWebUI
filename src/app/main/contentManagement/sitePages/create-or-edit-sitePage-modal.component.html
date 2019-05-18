@@ -1,0 +1,180 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #sitePageForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="sitePage.id">{{l("EditSitePage")}}</span>
+                        <span *ngIf="!sitePage.id">{{l("CreateNewSitePage")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="SitePage_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="SitePage_ProjectId" class="form-control" [(ngModel)]="sitePage.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Nr">{{l("Nr")}}</label>
+									<input type="number" id="SitePage_Nr" class="form-control" [(ngModel)]="sitePage.nr" name="Nr"  min="1"  max="255"/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Description">{{l("Description")}} *</label>
+									<input type="text" id="SitePage_Description" class="form-control" [(ngModel)]="sitePage.description" name="Description"   minlength="1"  maxlength="255"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Type">{{l("Type")}}</label>
+									<select class="form-control" name="Type" id="SitePage_Type" [(ngModel)]="sitePage.type">
+									<option value="1">{{l('Window')}}</option>
+
+									<option value="2">{{l('PopUp')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Language1">{{l("Language1")}}</label>
+									<select class="form-control" name="Language1" id="SitePage_Language1" [(ngModel)]="sitePage.language1">
+									<option value="1">{{l('English')}}</option>
+
+									<option value="2">{{l('German')}}</option>
+
+									<option value="3">{{l('Norwegian')}}</option>
+
+									<option value="4">{{l('Finnish')}}</option>
+
+									<option value="5">{{l('Swedish')}}</option>
+
+									<option value="6">{{l('French')}}</option>
+
+									<option value="7">{{l('Italian')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_ContentType1">{{l("ContentType1")}}</label>
+									<select class="form-control" name="ContentType1" id="SitePage_ContentType1" [(ngModel)]="sitePage.contentType1">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Name1">{{l("Name1")}} *</label>
+									<input type="text" id="SitePage_Name1" class="form-control" [(ngModel)]="sitePage.name1" name="Name1"   minlength="1"  maxlength="255"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Title1">{{l("Title1")}} *</label>
+									<input type="text" id="SitePage_Title1" class="form-control" [(ngModel)]="sitePage.title1" name="Title1"   minlength="1"  maxlength="255"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Language2">{{l("Language2")}}</label>
+									<select class="form-control" name="Language2" id="SitePage_Language2" [(ngModel)]="sitePage.language2">
+									<option value="1">{{l('English')}}</option>
+
+									<option value="2">{{l('German')}}</option>
+
+									<option value="3">{{l('Norwegian')}}</option>
+
+									<option value="4">{{l('Finnish')}}</option>
+
+									<option value="5">{{l('Swedish')}}</option>
+
+									<option value="6">{{l('French')}}</option>
+
+									<option value="7">{{l('Italian')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_ContentType2">{{l("ContentType2")}}</label>
+									<select class="form-control" name="ContentType2" id="SitePage_ContentType2" [(ngModel)]="sitePage.contentType2">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Name2">{{l("Name2")}}</label>
+									<input type="text" id="SitePage_Name2" class="form-control" [(ngModel)]="sitePage.name2" name="Name2"   minlength="1"  maxlength="255" />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Title2">{{l("Title2")}}</label>
+									<input type="text" id="SitePage_Title2" class="form-control" [(ngModel)]="sitePage.title2" name="Title2"   minlength="1"  maxlength="255" />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Language3">{{l("Language3")}}</label>
+									<select class="form-control" name="Language3" id="SitePage_Language3" [(ngModel)]="sitePage.language3">
+									<option value="1">{{l('English')}}</option>
+
+									<option value="2">{{l('German')}}</option>
+
+									<option value="3">{{l('Norwegian')}}</option>
+
+									<option value="4">{{l('Finnish')}}</option>
+
+									<option value="5">{{l('Swedish')}}</option>
+
+									<option value="6">{{l('French')}}</option>
+
+									<option value="7">{{l('Italian')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_ContentType3">{{l("ContentType3")}}</label>
+									<select class="form-control" name="ContentType3" id="SitePage_ContentType3" [(ngModel)]="sitePage.contentType3">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Name3">{{l("Name3")}}</label>
+									<input type="text" id="SitePage_Name3" class="form-control" [(ngModel)]="sitePage.name3" name="Name3"   minlength="1"  maxlength="255" />
+								</div>
+					
+								<div class="form-group">
+									<label for="SitePage_Title3">{{l("Title3")}}</label>
+									<input type="text" id="SitePage_Title3" class="form-control" [(ngModel)]="sitePage.title3" name="Title3"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!sitePageForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

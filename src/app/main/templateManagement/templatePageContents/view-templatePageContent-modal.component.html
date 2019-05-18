@@ -1,0 +1,62 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("TemplateId")}} :</h6>
+                        {{item.templatePageContent.templateId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("pageName")}} :</h6>
+                        {{l('Enum_SitePageNames' +  sitePageNames[item.templatePageContent.pageName])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("PagePart")}} :</h6>
+                        {{item.templatePageContent.pagePart}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("SectionNr")}} :</h6>
+                        {{item.templatePageContent.sectionNr}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Nr")}} :</h6>
+                        {{item.templatePageContent.nr}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("contentType")}} :</h6>
+                        {{l('Enum_ContentType' +  contentType[item.templatePageContent.contentType])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Value")}} :</h6>
+                        {{item.templatePageContent.value}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("IsHidden")}} :</h6>
+                        {{item.templatePageContent.isHidden}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Status")}} :</h6>
+                        {{item.templatePageContent.status}}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

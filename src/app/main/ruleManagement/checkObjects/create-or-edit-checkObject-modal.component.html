@@ -1,0 +1,81 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #checkObjectForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="checkObject.id">{{l("EditCheckObject")}}</span>
+                        <span *ngIf="!checkObject.id">{{l("CreateNewCheckObject")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="CheckObject_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="CheckObject_ProjectId" class="form-control" [(ngModel)]="checkObject.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="CheckObject_Nr">{{l("Nr")}}</label>
+									<input type="number" id="CheckObject_Nr" class="form-control" [(ngModel)]="checkObject.nr" name="Nr"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="CheckObject_Name">{{l("Name")}} *</label>
+									<input type="text" id="CheckObject_Name" class="form-control" [(ngModel)]="checkObject.name" name="Name"   minlength="1"  maxlength="50"  required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="CheckObject_Source">{{l("Source")}}</label>
+									<select class="form-control" name="Source" id="CheckObject_Source" [(ngModel)]="checkObject.source">
+									<option value="1">{{l('Header')}}</option>
+
+									<option value="2">{{l('UserAgent')}}</option>
+
+									<option value="3">{{l('IpInfo')}}</option>
+
+									<option value="4">{{l('Custom')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="CheckObject_CheckType">{{l("CheckType")}}</label>
+									<select class="form-control" name="CheckType" id="CheckObject_CheckType" [(ngModel)]="checkObject.checkType">
+									<option value="1">{{l('DontCheck')}}</option>
+
+									<option value="2">{{l('CheckOnlyBlocked')}}</option>
+
+									<option value="3">{{l('CheckOnlyAllowed')}}</option>
+
+									<option value="4">{{l('CheckBoth')}}</option>
+
+
+									</select>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="CheckObject_CheckNextObject" class="m-checkbox">
+										<input id="CheckObject_CheckNextObject" type="checkbox" name="CheckNextObject" [(ngModel)]="checkObject.checkNextObject"> 
+										{{l("CheckNextObject")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!checkObjectForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

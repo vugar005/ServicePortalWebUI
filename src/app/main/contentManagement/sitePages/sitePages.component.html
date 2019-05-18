@@ -1,0 +1,374 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("SitePages")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("SitePagesHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.SitePages.Create')" (click)="createSitePage()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewSitePage")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getSitePages()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinProjectIdFilter">{{l("MinMax")}} {{l("ProjectId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinProjectIdFilter" [(ngModel)]="minProjectIdFilter" placeholder="{{l('MinValue')}}" name="minProjectIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxProjectIdFilter" placeholder="{{l('MaxValue')}}" name="maxProjectIdFilter" />
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinNrFilter">{{l("MinMax")}} {{l("Nr")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinNrFilter" [(ngModel)]="minNrFilter" placeholder="{{l('MinValue')}}" name="minNrFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxNrFilter" placeholder="{{l('MaxValue')}}" name="maxNrFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="DescriptionFilter">{{l("Description")}}</label>
+									<input type="text" class="form-control" id="DescriptionFilter" name="descriptionFilter" [(ngModel)]="descriptionFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="Language1FilterSelect">{{l("Language1")}}</label>
+								<select class="form-control" name="Language1Filter" id="Language1FilterSelect" [(ngModel)]="language1Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('English')}}</option>
+
+										<option value="2">{{l('German')}}</option>
+
+										<option value="3">{{l('Norwegian')}}</option>
+
+										<option value="4">{{l('Finnish')}}</option>
+
+										<option value="5">{{l('Swedish')}}</option>
+
+										<option value="6">{{l('French')}}</option>
+
+										<option value="7">{{l('Italian')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="ContentType1FilterSelect">{{l("ContentType1")}}</label>
+								<select class="form-control" name="ContentType1Filter" id="ContentType1FilterSelect" [(ngModel)]="contentType1Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Offline')}}</option>
+
+										<option value="2">{{l('Online')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="Language2FilterSelect">{{l("Language2")}}</label>
+								<select class="form-control" name="Language2Filter" id="Language2FilterSelect" [(ngModel)]="language2Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('English')}}</option>
+
+										<option value="2">{{l('German')}}</option>
+
+										<option value="3">{{l('Norwegian')}}</option>
+
+										<option value="4">{{l('Finnish')}}</option>
+
+										<option value="5">{{l('Swedish')}}</option>
+
+										<option value="6">{{l('French')}}</option>
+
+										<option value="7">{{l('Italian')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="ContentType2FilterSelect">{{l("ContentType2")}}</label>
+								<select class="form-control" name="ContentType2Filter" id="ContentType2FilterSelect" [(ngModel)]="contentType2Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Offline')}}</option>
+
+										<option value="2">{{l('Online')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="Language3FilterSelect">{{l("Language3")}}</label>
+								<select class="form-control" name="Language3Filter" id="Language3FilterSelect" [(ngModel)]="language3Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('English')}}</option>
+
+										<option value="2">{{l('German')}}</option>
+
+										<option value="3">{{l('Norwegian')}}</option>
+
+										<option value="4">{{l('Finnish')}}</option>
+
+										<option value="5">{{l('Swedish')}}</option>
+
+										<option value="6">{{l('French')}}</option>
+
+										<option value="7">{{l('Italian')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="ContentType3FilterSelect">{{l("ContentType3")}}</label>
+								<select class="form-control" name="ContentType3Filter" id="ContentType3FilterSelect" [(ngModel)]="contentType3Filter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Offline')}}</option>
+
+										<option value="2">{{l('Online')}}</option>
+
+
+								</select>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getSitePages($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.SitePages.Edit', 'Pages.SitePages.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.projectId">
+                                        {{l('ProjectId')}}
+                                        <p-sortIcon field="sitePage.projectId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.nr">
+                                        {{l('Nr')}}
+                                        <p-sortIcon field="sitePage.nr"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.description">
+                                        {{l('Description')}}
+                                        <p-sortIcon field="sitePage.description"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.type">
+                                        {{l('Type')}}
+                                        <p-sortIcon field="sitePage.type"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.language1">
+                                        {{l('Language1')}}
+                                        <p-sortIcon field="sitePage.language1"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.contentType1">
+                                        {{l('ContentType1')}}
+                                        <p-sortIcon field="sitePage.contentType1"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.name1">
+                                        {{l('Name1')}}
+                                        <p-sortIcon field="sitePage.name1"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.title1">
+                                        {{l('Title1')}}
+                                        <p-sortIcon field="sitePage.title1"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.language2">
+                                        {{l('Language2')}}
+                                        <p-sortIcon field="sitePage.language2"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.contentType2">
+                                        {{l('ContentType2')}}
+                                        <p-sortIcon field="sitePage.contentType2"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.name2">
+                                        {{l('Name2')}}
+                                        <p-sortIcon field="sitePage.name2"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.title2">
+                                        {{l('Title2')}}
+                                        <p-sortIcon field="sitePage.title2"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.language3">
+                                        {{l('Language3')}}
+                                        <p-sortIcon field="sitePage.language3"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.contentType3">
+                                        {{l('ContentType3')}}
+                                        <p-sortIcon field="sitePage.contentType3"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.name3">
+                                        {{l('Name3')}}
+                                        <p-sortIcon field="sitePage.name3"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="sitePage.title3">
+                                        {{l('Title3')}}
+                                        <p-sortIcon field="sitePage.title3"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.SitePages.Edit', 'Pages.SitePages.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewSitePageModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.SitePages.Edit')"
+														(click)="createOrEditSitePageModal.show(record.sitePage.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.SitePages.Delete')"
+														(click)="deleteSitePage(record.sitePage)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProjectId')}}</span>
+											{{record.sitePage.projectId}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Nr')}}</span>
+											{{record.sitePage.nr}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Description')}}</span>
+											{{record.sitePage.description}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Type')}}</span>
+										{{l('Enum_PageType' +  pageType[record.sitePage.type])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Language1')}}</span>
+										{{l('Enum_Language' +  language[record.sitePage.language1])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ContentType1')}}</span>
+										{{l('Enum_ContentType' +  contentType[record.sitePage.contentType1])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name1')}}</span>
+											{{record.sitePage.name1}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Title1')}}</span>
+											{{record.sitePage.title1}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Language2')}}</span>
+										{{l('Enum_Language' +  language[record.sitePage.language2])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ContentType2')}}</span>
+										{{l('Enum_ContentType' +  contentType[record.sitePage.contentType2])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name2')}}</span>
+											{{record.sitePage.name2}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Title2')}}</span>
+											{{record.sitePage.title2}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('Language3')}}</span>
+										{{l('Enum_Language' +  language[record.sitePage.language3])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ContentType3')}}</span>
+										{{l('Enum_ContentType' +  contentType[record.sitePage.contentType3])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name3')}}</span>
+											{{record.sitePage.name3}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Title3')}}</span>
+											{{record.sitePage.title3}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getSitePages($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditSitePageModal #createOrEditSitePageModal (modalSave)="getSitePages()"></createOrEditSitePageModal>
+    <viewSitePageModal #viewSitePageModal></viewSitePageModal>
+    
+</div>

@@ -1,0 +1,118 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #templatePageContentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="templatePageContent.id">{{l("EditTemplatePageContent")}}</span>
+                        <span *ngIf="!templatePageContent.id">{{l("CreateNewTemplatePageContent")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+
+								<div class="form-group">
+									<label for="TemplatePageContent_TemplateId">{{l("TemplateId")}}</label>
+									<input type="number" id="TemplatePageContent_TemplateId" class="form-control" [(ngModel)]="templatePageContent.templateId" name="TemplateId"  />
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_PageName">{{l("PageName")}}</label>
+									<select class="form-control" name="PageName" id="TemplatePageContent_PageName" [(ngModel)]="templatePageContent.pageName">
+									<option value="1">{{l('Home')}}</option>
+
+									<option value="2">{{l('About')}}</option>
+
+									<option value="3">{{l('Contact')}}</option>
+
+									<option value="4">{{l('TermsOfUse')}}</option>
+
+									<option value="5">{{l('Privacy')}}</option>
+
+									<option value="6">{{l('Cookie')}}</option>
+
+									<option value="7">{{l('HowWeScore')}}</option>
+
+									<option value="8">{{l('Games')}}</option>
+
+									<option value="9">{{l('Reviews')}}</option>
+
+									<option value="10">{{l('PartnerReview')}}</option>
+
+									<option value="11">{{l('Blackjack')}}</option>
+
+									<option value="12">{{l('Roulette')}}</option>
+
+									<option value="13">{{l('Poker')}}</option>
+
+									<option value="14">{{l('Baccarat')}}</option>
+
+									<option value="15">{{l('Slot')}}</option>
+
+
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_PagePart">{{l("PagePart")}}</label>
+									<input type="number" id="TemplatePageContent_PagePart" class="form-control" [(ngModel)]="templatePageContent.pagePart" name="PagePart"  />
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_SectionNr">{{l("SectionNr")}}</label>
+									<input type="number" id="TemplatePageContent_SectionNr" class="form-control" [(ngModel)]="templatePageContent.sectionNr" name="SectionNr"  />
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_Nr">{{l("Nr")}}</label>
+									<input type="number" id="TemplatePageContent_Nr" class="form-control" [(ngModel)]="templatePageContent.nr" name="Nr"  />
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_ContentType">{{l("ContentType")}}</label>
+									<select class="form-control" name="ContentType" id="TemplatePageContent_ContentType" [(ngModel)]="templatePageContent.contentType">
+									<option value="1">{{l('Offline')}}</option>
+
+									<option value="2">{{l('Online')}}</option>
+
+
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="TemplatePageContent_Value">{{l("Value")}}</label>
+										<text-area pInputTextarea type="text" id="TemplatePageContent_Value" class="form-control" [(ngModel)]="templatePageContent.value" name="Value" >
+										</text-area>
+								</div>
+
+								<br/><div class="m-checkbox-list">
+									<label for="TemplatePageContent_IsHidden" class="m-checkbox">
+										<input id="TemplatePageContent_IsHidden" type="checkbox" name="IsHidden" [(ngModel)]="templatePageContent.isHidden">
+										{{l("IsHidden")}}
+										<span></span>
+									</label>
+								</div>
+
+								<br/><div class="m-checkbox-list">
+									<label for="TemplatePageContent_Status" class="m-checkbox">
+										<input id="TemplatePageContent_Status" type="checkbox" name="Status" [(ngModel)]="templatePageContent.status">
+										{{l("Status")}}
+										<span></span>
+									</label>
+								</div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!templatePageContentForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

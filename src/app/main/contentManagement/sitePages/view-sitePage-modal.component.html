@@ -1,0 +1,90 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ProjectId")}} :</h6>
+                        {{item.sitePage.projectId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Nr")}} :</h6>
+                        {{item.sitePage.nr}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Description")}} :</h6>
+                        {{item.sitePage.description}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("type")}} :</h6>
+                        {{l('Enum_PageType' +  pageType[item.sitePage.type])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("language1")}} :</h6>
+                        {{l('Enum_Language' +  language[item.sitePage.language1])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("contentType1")}} :</h6>
+                        {{l('Enum_ContentType' +  contentType[item.sitePage.contentType1])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Name1")}} :</h6>
+                        {{item.sitePage.name1}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Title1")}} :</h6>
+                        {{item.sitePage.title1}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("language2")}} :</h6>
+                        {{l('Enum_Language' +  language[item.sitePage.language2])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("contentType2")}} :</h6>
+                        {{l('Enum_ContentType' +  contentType[item.sitePage.contentType2])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Name2")}} :</h6>
+                        {{item.sitePage.name2}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Title2")}} :</h6>
+                        {{item.sitePage.title2}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("language3")}} :</h6>
+                        {{l('Enum_Language' +  language[item.sitePage.language3])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("contentType3")}} :</h6>
+                        {{l('Enum_ContentType' +  contentType[item.sitePage.contentType3])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Name3")}} :</h6>
+                        {{item.sitePage.name3}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Title3")}} :</h6>
+                        {{item.sitePage.title3}}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

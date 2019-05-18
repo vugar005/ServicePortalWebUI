@@ -1,0 +1,78 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #serviceEndpointsForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="serviceEndpoints.id">{{l("EditServiceEndpoints")}}</span>
+                        <span *ngIf="!serviceEndpoints.id">{{l("CreateNewServiceEndpoints")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ServiceEndpoints_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="ServiceEndpoints_ProjectId" class="form-control" [(ngModel)]="serviceEndpoints.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="ServiceEndpoints_ServiceEntity">{{l("ServiceEntity")}}</label>
+									<select class="form-control" name="ServiceEntity" id="ServiceEndpoints_ServiceEntity" [(ngModel)]="serviceEndpoints.serviceEntity">
+									<option value="1">{{l('SiteConfig')}}</option>
+
+									<option value="2">{{l('Schedule')}}</option>
+
+									<option value="3">{{l('SmtpSetting')}}</option>
+
+									<option value="4">{{l('User')}}</option>
+
+									<option value="5">{{l('Field')}}</option>
+
+									<option value="6">{{l('FieldValue')}}</option>
+
+									<option value="7">{{l('Page')}}</option>
+
+									<option value="8">{{l('PageProperty')}}</option>
+
+									<option value="9">{{l('PageContent')}}</option>
+
+									<option value="10">{{l('PageScript')}}</option>
+
+									<option value="11">{{l('CheckObject')}}</option>
+
+									<option value="12">{{l('Rule')}}</option>
+
+									<option value="13">{{l('RequestLog')}}</option>
+
+									<option value="14">{{l('LogFile')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ServiceEndpoints_EndpointUrl">{{l("EndpointUrl")}} *</label>
+									<input type="text" id="ServiceEndpoints_EndpointUrl" class="form-control" [(ngModel)]="serviceEndpoints.endpointUrl" name="EndpointUrl"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="ServiceEndpoints_Notes">{{l("Notes")}}</label>
+									<input type="text" id="ServiceEndpoints_Notes" class="form-control" [(ngModel)]="serviceEndpoints.notes" name="Notes"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!serviceEndpointsForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

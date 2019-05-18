@@ -1,0 +1,806 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("RequestLogs")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("RequestLogsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.RequestLogs.Create')" (click)="createRequestLog()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewRequestLog")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getRequestLogs()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinProjecIdFilter">{{l("MinMax")}} {{l("ProjecId")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinProjecIdFilter" [(ngModel)]="minProjecIdFilter" placeholder="{{l('MinValue')}}" name="minProjecIdFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxProjecIdFilter" placeholder="{{l('MaxValue')}}" name="maxProjecIdFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RequestQueryFilter">{{l("RequestQuery")}}</label>
+									<input type="text" class="form-control" id="RequestQueryFilter" name="requestQueryFilter" [(ngModel)]="requestQueryFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RequestBodyFilter">{{l("RequestBody")}}</label>
+									<input type="text" class="form-control" id="RequestBodyFilter" name="requestBodyFilter" [(ngModel)]="requestBodyFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RequestHeaderFilter">{{l("RequestHeader")}}</label>
+									<input type="text" class="form-control" id="RequestHeaderFilter" name="requestHeaderFilter" [(ngModel)]="requestHeaderFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserAgentFilter">{{l("UserAgent")}}</label>
+									<input type="text" class="form-control" id="UserAgentFilter" name="userAgentFilter" [(ngModel)]="userAgentFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnFilter">{{l("Asn")}}</label>
+									<input type="text" class="form-control" id="AsnFilter" name="asnFilter" [(ngModel)]="asnFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RefererFilter">{{l("Referer")}}</label>
+									<input type="text" class="form-control" id="RefererFilter" name="refererFilter" [(ngModel)]="refererFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RefererByRuleFilter">{{l("RefererByRule")}}</label>
+									<input type="text" class="form-control" id="RefererByRuleFilter" name="refererByRuleFilter" [(ngModel)]="refererByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="EngineTypeFilter">{{l("EngineType")}}</label>
+									<input type="text" class="form-control" id="EngineTypeFilter" name="engineTypeFilter" [(ngModel)]="engineTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="EngineTypeByRuleFilter">{{l("EngineTypeByRule")}}</label>
+									<input type="text" class="form-control" id="EngineTypeByRuleFilter" name="engineTypeByRuleFilter" [(ngModel)]="engineTypeByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CrawlerFilter">{{l("Crawler")}}</label>
+									<input type="text" class="form-control" id="CrawlerFilter" name="crawlerFilter" [(ngModel)]="crawlerFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CrawlerByRuleFilter">{{l("CrawlerByRule")}}</label>
+									<input type="text" class="form-control" id="CrawlerByRuleFilter" name="crawlerByRuleFilter" [(ngModel)]="crawlerByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CrawlerTypeFilter">{{l("CrawlerType")}}</label>
+									<input type="text" class="form-control" id="CrawlerTypeFilter" name="crawlerTypeFilter" [(ngModel)]="crawlerTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CrawlerTypeByRuleFilter">{{l("CrawlerTypeByRule")}}</label>
+									<input type="text" class="form-control" id="CrawlerTypeByRuleFilter" name="crawlerTypeByRuleFilter" [(ngModel)]="crawlerTypeByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="DeviceNameFilter">{{l("DeviceName")}}</label>
+									<input type="text" class="form-control" id="DeviceNameFilter" name="deviceNameFilter" [(ngModel)]="deviceNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="DeviceNameByRuleFilter">{{l("DeviceNameByRule")}}</label>
+									<input type="text" class="form-control" id="DeviceNameByRuleFilter" name="deviceNameByRuleFilter" [(ngModel)]="deviceNameByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="DeviceTypeFilterSelect">{{l("DeviceType")}}</label>
+								<select class="form-control" name="DeviceTypeFilter" id="DeviceTypeFilterSelect" [(ngModel)]="deviceTypeFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Desktop')}}</option>
+
+										<option value="2">{{l('Tablet')}}</option>
+
+										<option value="3">{{l('Mobile')}}</option>
+
+										<option value="4">{{l('Tv')}}</option>
+
+										<option value="5">{{l('Console')}}</option>
+
+										<option value="6">{{l('Car')}}</option>
+
+										<option value="7">{{l('Others')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<label for="DeviceTypeByRuleFilterSelect">{{l("DeviceTypeByRule")}}</label>
+								<select class="form-control" name="DeviceTypeByRuleFilter" id="DeviceTypeByRuleFilterSelect" [(ngModel)]="deviceTypeByRuleFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Desktop')}}</option>
+
+										<option value="2">{{l('Tablet')}}</option>
+
+										<option value="3">{{l('Mobile')}}</option>
+
+										<option value="4">{{l('Tv')}}</option>
+
+										<option value="5">{{l('Console')}}</option>
+
+										<option value="6">{{l('Car')}}</option>
+
+										<option value="7">{{l('Others')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="PlatformFilter">{{l("Platform")}}</label>
+									<input type="text" class="form-control" id="PlatformFilter" name="platformFilter" [(ngModel)]="platformFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="PlatformByRuleFilter">{{l("PlatformByRule")}}</label>
+									<input type="text" class="form-control" id="PlatformByRuleFilter" name="platformByRuleFilter" [(ngModel)]="platformByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BrowserFilter">{{l("Browser")}}</label>
+									<input type="text" class="form-control" id="BrowserFilter" name="browserFilter" [(ngModel)]="browserFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="BrowserByRuleFilter">{{l("BrowserByRule")}}</label>
+									<input type="text" class="form-control" id="BrowserByRuleFilter" name="browserByRuleFilter" [(ngModel)]="browserByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CountryFilter">{{l("Country")}}</label>
+									<input type="text" class="form-control" id="CountryFilter" name="countryFilter" [(ngModel)]="countryFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CountryByRuleFilter">{{l("CountryByRule")}}</label>
+									<input type="text" class="form-control" id="CountryByRuleFilter" name="countryByRuleFilter" [(ngModel)]="countryByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="LocationFilter">{{l("Location")}}</label>
+									<input type="text" class="form-control" id="LocationFilter" name="locationFilter" [(ngModel)]="locationFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="HostNameFilter">{{l("HostName")}}</label>
+									<input type="text" class="form-control" id="HostNameFilter" name="hostNameFilter" [(ngModel)]="hostNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="HostNameByRuleFilter">{{l("HostNameByRule")}}</label>
+									<input type="text" class="form-control" id="HostNameByRuleFilter" name="hostNameByRuleFilter" [(ngModel)]="hostNameByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyDomainFilter">{{l("CompanyDomain")}}</label>
+									<input type="text" class="form-control" id="CompanyDomainFilter" name="companyDomainFilter" [(ngModel)]="companyDomainFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyDomainByRuleFilter">{{l("CompanyDomainByRule")}}</label>
+									<input type="text" class="form-control" id="CompanyDomainByRuleFilter" name="companyDomainByRuleFilter" [(ngModel)]="companyDomainByRuleFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinPageNrFilter">{{l("MinMax")}} {{l("PageNr")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinPageNrFilter" [(ngModel)]="minPageNrFilter" placeholder="{{l('MinValue')}}" name="minPageNrFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxPageNrFilter" placeholder="{{l('MaxValue')}}" name="maxPageNrFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CalledUrlFilter">{{l("CalledUrl")}}</label>
+									<input type="text" class="form-control" id="CalledUrlFilter" name="calledUrlFilter" [(ngModel)]="calledUrlFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CallerIpFilter">{{l("CallerIp")}}</label>
+									<input type="text" class="form-control" id="CallerIpFilter" name="callerIpFilter" [(ngModel)]="callerIpFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CallerIpByRuleFilter">{{l("CallerIpByRule")}}</label>
+									<input type="text" class="form-control" id="CallerIpByRuleFilter" name="callerIpByRuleFilter" [(ngModel)]="callerIpByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyNameFilter">{{l("CompanyName")}}</label>
+									<input type="text" class="form-control" id="CompanyNameFilter" name="companyNameFilter" [(ngModel)]="companyNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyNameByRuleFilter">{{l("CompanyNameByRule")}}</label>
+									<input type="text" class="form-control" id="CompanyNameByRuleFilter" name="companyNameByRuleFilter" [(ngModel)]="companyNameByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyTypeFilter">{{l("CompanyType")}}</label>
+									<input type="text" class="form-control" id="CompanyTypeFilter" name="companyTypeFilter" [(ngModel)]="companyTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CompanyTypeByRuleFilter">{{l("CompanyTypeByRule")}}</label>
+									<input type="text" class="form-control" id="CompanyTypeByRuleFilter" name="companyTypeByRuleFilter" [(ngModel)]="companyTypeByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RegionFilter">{{l("Region")}}</label>
+									<input type="text" class="form-control" id="RegionFilter" name="regionFilter" [(ngModel)]="regionFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="RegionByRuleFilter">{{l("RegionByRule")}}</label>
+									<input type="text" class="form-control" id="RegionByRuleFilter" name="regionByRuleFilter" [(ngModel)]="regionByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnByRuleFilter">{{l("AsnByRule")}}</label>
+									<input type="text" class="form-control" id="AsnByRuleFilter" name="asnByRuleFilter" [(ngModel)]="asnByRuleFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnCodeFilter">{{l("AsnCode")}}</label>
+									<input type="text" class="form-control" id="AsnCodeFilter" name="asnCodeFilter" [(ngModel)]="asnCodeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnNameFilter">{{l("AsnName")}}</label>
+									<input type="text" class="form-control" id="AsnNameFilter" name="asnNameFilter" [(ngModel)]="asnNameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnDomainFilter">{{l("AsnDomain")}}</label>
+									<input type="text" class="form-control" id="AsnDomainFilter" name="asnDomainFilter" [(ngModel)]="asnDomainFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="AsnTypeFilter">{{l("AsnType")}}</label>
+									<input type="text" class="form-control" id="AsnTypeFilter" name="asnTypeFilter" [(ngModel)]="asnTypeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CauseFilter">{{l("Cause")}}</label>
+									<input type="text" class="form-control" id="CauseFilter" name="causeFilter" [(ngModel)]="causeFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="NoteFilter">{{l("Note")}}</label>
+									<input type="text" class="form-control" id="NoteFilter" name="noteFilter" [(ngModel)]="noteFilter">
+								</div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getRequestLogs($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.RequestLogs.Edit', 'Pages.RequestLogs.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.projecId">
+                                        {{l('ProjecId')}}
+                                        <p-sortIcon field="requestLog.projecId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.requestQuery">
+                                        {{l('RequestQuery')}}
+                                        <p-sortIcon field="requestLog.requestQuery"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.requestBody">
+                                        {{l('RequestBody')}}
+                                        <p-sortIcon field="requestLog.requestBody"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.requestHeader">
+                                        {{l('RequestHeader')}}
+                                        <p-sortIcon field="requestLog.requestHeader"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.userAgent">
+                                        {{l('UserAgent')}}
+                                        <p-sortIcon field="requestLog.userAgent"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asn">
+                                        {{l('Asn')}}
+                                        <p-sortIcon field="requestLog.asn"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.referer">
+                                        {{l('Referer')}}
+                                        <p-sortIcon field="requestLog.referer"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.refererByRule">
+                                        {{l('RefererByRule')}}
+                                        <p-sortIcon field="requestLog.refererByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.engineType">
+                                        {{l('EngineType')}}
+                                        <p-sortIcon field="requestLog.engineType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.engineTypeByRule">
+                                        {{l('EngineTypeByRule')}}
+                                        <p-sortIcon field="requestLog.engineTypeByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.crawler">
+                                        {{l('Crawler')}}
+                                        <p-sortIcon field="requestLog.crawler"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.crawlerByRule">
+                                        {{l('CrawlerByRule')}}
+                                        <p-sortIcon field="requestLog.crawlerByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.crawlerType">
+                                        {{l('CrawlerType')}}
+                                        <p-sortIcon field="requestLog.crawlerType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.crawlerTypeByRule">
+                                        {{l('CrawlerTypeByRule')}}
+                                        <p-sortIcon field="requestLog.crawlerTypeByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.deviceName">
+                                        {{l('DeviceName')}}
+                                        <p-sortIcon field="requestLog.deviceName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.deviceNameByRule">
+                                        {{l('DeviceNameByRule')}}
+                                        <p-sortIcon field="requestLog.deviceNameByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.deviceType">
+                                        {{l('DeviceType')}}
+                                        <p-sortIcon field="requestLog.deviceType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.deviceTypeByRule">
+                                        {{l('DeviceTypeByRule')}}
+                                        <p-sortIcon field="requestLog.deviceTypeByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.platform">
+                                        {{l('Platform')}}
+                                        <p-sortIcon field="requestLog.platform"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.platformByRule">
+                                        {{l('PlatformByRule')}}
+                                        <p-sortIcon field="requestLog.platformByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.browser">
+                                        {{l('Browser')}}
+                                        <p-sortIcon field="requestLog.browser"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.browserByRule">
+                                        {{l('BrowserByRule')}}
+                                        <p-sortIcon field="requestLog.browserByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.country">
+                                        {{l('Country')}}
+                                        <p-sortIcon field="requestLog.country"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.countryByRule">
+                                        {{l('CountryByRule')}}
+                                        <p-sortIcon field="requestLog.countryByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.location">
+                                        {{l('Location')}}
+                                        <p-sortIcon field="requestLog.location"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.hostName">
+                                        {{l('HostName')}}
+                                        <p-sortIcon field="requestLog.hostName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.hostNameByRule">
+                                        {{l('HostNameByRule')}}
+                                        <p-sortIcon field="requestLog.hostNameByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyDomain">
+                                        {{l('CompanyDomain')}}
+                                        <p-sortIcon field="requestLog.companyDomain"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyDomainByRule">
+                                        {{l('CompanyDomainByRule')}}
+                                        <p-sortIcon field="requestLog.companyDomainByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.pageNr">
+                                        {{l('PageNr')}}
+                                        <p-sortIcon field="requestLog.pageNr"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.calledUrl">
+                                        {{l('CalledUrl')}}
+                                        <p-sortIcon field="requestLog.calledUrl"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.callerIp">
+                                        {{l('CallerIp')}}
+                                        <p-sortIcon field="requestLog.callerIp"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.callerIpByRule">
+                                        {{l('CallerIpByRule')}}
+                                        <p-sortIcon field="requestLog.callerIpByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyName">
+                                        {{l('CompanyName')}}
+                                        <p-sortIcon field="requestLog.companyName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyNameByRule">
+                                        {{l('CompanyNameByRule')}}
+                                        <p-sortIcon field="requestLog.companyNameByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyType">
+                                        {{l('CompanyType')}}
+                                        <p-sortIcon field="requestLog.companyType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.companyTypeByRule">
+                                        {{l('CompanyTypeByRule')}}
+                                        <p-sortIcon field="requestLog.companyTypeByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.region">
+                                        {{l('Region')}}
+                                        <p-sortIcon field="requestLog.region"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.regionByRule">
+                                        {{l('RegionByRule')}}
+                                        <p-sortIcon field="requestLog.regionByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asnByRule">
+                                        {{l('AsnByRule')}}
+                                        <p-sortIcon field="requestLog.asnByRule"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asnCode">
+                                        {{l('AsnCode')}}
+                                        <p-sortIcon field="requestLog.asnCode"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asnName">
+                                        {{l('AsnName')}}
+                                        <p-sortIcon field="requestLog.asnName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asnDomain">
+                                        {{l('AsnDomain')}}
+                                        <p-sortIcon field="requestLog.asnDomain"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.asnType">
+                                        {{l('AsnType')}}
+                                        <p-sortIcon field="requestLog.asnType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.cause">
+                                        {{l('Cause')}}
+                                        <p-sortIcon field="requestLog.cause"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="requestLog.note">
+                                        {{l('Note')}}
+                                        <p-sortIcon field="requestLog.note"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.RequestLogs.Edit', 'Pages.RequestLogs.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;"
+														(click)="viewRequestLogModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.RequestLogs.Edit')"
+														(click)="createOrEditRequestLogModal.show(record.requestLog.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.RequestLogs.Delete')"
+														(click)="deleteRequestLog(record.requestLog)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('ProjecId')}}</span>
+											{{record.requestLog.projecId}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RequestQuery')}}</span>
+											{{record.requestLog.requestQuery}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RequestBody')}}</span>
+											{{record.requestLog.requestBody}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RequestHeader')}}</span>
+											{{record.requestLog.requestHeader}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('UserAgent')}}</span>
+											{{record.requestLog.userAgent}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Asn')}}</span>
+											{{record.requestLog.asn}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Referer')}}</span>
+											{{record.requestLog.referer}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RefererByRule')}}</span>
+											{{record.requestLog.refererByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('EngineType')}}</span>
+											{{record.requestLog.engineType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('EngineTypeByRule')}}</span>
+											{{record.requestLog.engineTypeByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Crawler')}}</span>
+											{{record.requestLog.crawler}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CrawlerByRule')}}</span>
+											{{record.requestLog.crawlerByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CrawlerType')}}</span>
+											{{record.requestLog.crawlerType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CrawlerTypeByRule')}}</span>
+											{{record.requestLog.crawlerTypeByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DeviceName')}}</span>
+											{{record.requestLog.deviceName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DeviceNameByRule')}}</span>
+											{{record.requestLog.deviceNameByRule}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('DeviceType')}}</span>
+										{{l('Enum_DeviceType' +  deviceType[record.requestLog.deviceType])}}
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('DeviceTypeByRule')}}</span>
+										{{l('Enum_DeviceType' +  deviceType[record.requestLog.deviceTypeByRule])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Platform')}}</span>
+											{{record.requestLog.platform}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PlatformByRule')}}</span>
+											{{record.requestLog.platformByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Browser')}}</span>
+											{{record.requestLog.browser}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('BrowserByRule')}}</span>
+											{{record.requestLog.browserByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Country')}}</span>
+											{{record.requestLog.country}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CountryByRule')}}</span>
+											{{record.requestLog.countryByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Location')}}</span>
+											{{record.requestLog.location}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('HostName')}}</span>
+											{{record.requestLog.hostName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('HostNameByRule')}}</span>
+											{{record.requestLog.hostNameByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyDomain')}}</span>
+											{{record.requestLog.companyDomain}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyDomainByRule')}}</span>
+											{{record.requestLog.companyDomainByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('PageNr')}}</span>
+											{{record.requestLog.pageNr}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CalledUrl')}}</span>
+											{{record.requestLog.calledUrl}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CallerIp')}}</span>
+											{{record.requestLog.callerIp}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CallerIpByRule')}}</span>
+											{{record.requestLog.callerIpByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyName')}}</span>
+											{{record.requestLog.companyName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyNameByRule')}}</span>
+											{{record.requestLog.companyNameByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyType')}}</span>
+											{{record.requestLog.companyType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CompanyTypeByRule')}}</span>
+											{{record.requestLog.companyTypeByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Region')}}</span>
+											{{record.requestLog.region}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('RegionByRule')}}</span>
+											{{record.requestLog.regionByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AsnByRule')}}</span>
+											{{record.requestLog.asnByRule}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AsnCode')}}</span>
+											{{record.requestLog.asnCode}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AsnName')}}</span>
+											{{record.requestLog.asnName}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AsnDomain')}}</span>
+											{{record.requestLog.asnDomain}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('AsnType')}}</span>
+											{{record.requestLog.asnType}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Cause')}}</span>
+											{{record.requestLog.cause}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Note')}}</span>
+											{{record.requestLog.note}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getRequestLogs($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditRequestLogModal #createOrEditRequestLogModal (modalSave)="getRequestLogs()"></createOrEditRequestLogModal>
+    <viewRequestLogModal #viewRequestLogModal></viewRequestLogModal>
+    
+</div>

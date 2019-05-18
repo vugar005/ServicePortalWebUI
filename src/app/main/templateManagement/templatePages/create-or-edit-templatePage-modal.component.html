@@ -1,0 +1,59 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #templatePageForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="templatePage.id">{{l("EditTemplatePage")}}</span>
+                        <span *ngIf="!templatePage.id">{{l("CreateNewTemplatePage")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label for="TemplatePage_TemplateId">{{l("TemplateCode")}}</label>
+                        <templatecode-combo name="templateFilter" [(ngModel)]="templatePage.templateId" required></templatecode-combo>                        
+                    </div>
+								<div class="form-group">
+									<label for="TemplatePage_PageName">{{l("PageName")}}</label>
+									<select class="form-control" name="PageName" id="TemplatePage_PageName" [(ngModel)]="templatePage.pageName">
+									<option value="1">{{l('Home')}}</option>
+									<option value="2">{{l('About')}}</option>
+									<option value="3">{{l('Contact')}}</option>
+									<option value="4">{{l('TermsOfUse')}}</option>
+									<option value="5">{{l('Privacy')}}</option>
+									<option value="6">{{l('Cookie')}}</option>
+									<option value="7">{{l('HowWeScore')}}</option>
+									<option value="8">{{l('Games')}}</option>
+									<option value="9">{{l('Reviews')}}</option>
+									<option value="10">{{l('PartnerReview')}}</option>
+									<option value="11">{{l('Blackjack')}}</option>
+									<option value="12">{{l('Roulette')}}</option>
+									<option value="13">{{l('Poker')}}</option>
+									<option value="14">{{l('Baccarat')}}</option>
+									<option value="15">{{l('Slot')}}</option>
+									</select>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="TemplatePage_Status" class="m-checkbox">
+										<input id="TemplatePage_Status" type="checkbox" name="Status" [(ngModel)]="templatePage.status"> 
+										{{l("Status")}}
+										<span></span>
+									</label>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!templatePageForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

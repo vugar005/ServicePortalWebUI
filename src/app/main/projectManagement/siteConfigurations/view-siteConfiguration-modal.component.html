@@ -1,0 +1,58 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("ProjectCodeId")}} :</h6>
+                        {{item.siteConfiguration.projectCodeId}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Name")}} :</h6>
+                        {{item.siteConfiguration.name}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("status")}} :</h6>
+                        {{l('Enum_SiteStatus' +  siteStatus[item.siteConfiguration.status])}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("RemarkablePeriodSeconds")}} :</h6>
+                        {{item.siteConfiguration.remarkablePeriodSeconds}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("MaxRemarkableRequestCount")}} :</h6>
+                        {{item.siteConfiguration.maxRemarkableRequestCount}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("DelaySeconds")}} :</h6>
+                        {{item.siteConfiguration.delaySeconds}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("MaxCallCountPerUser")}} :</h6>
+                        {{item.siteConfiguration.maxCallCountPerUser}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("defaultLanguage")}} :</h6>
+                        {{l('Enum_Language' +  language[item.siteConfiguration.defaultLanguage])}}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

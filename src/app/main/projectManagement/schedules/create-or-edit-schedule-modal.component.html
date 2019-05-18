@@ -1,0 +1,73 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #scheduleForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="schedule.id">{{l("EditSchedule")}}</span>
+                        <span *ngIf="!schedule.id">{{l("CreateNewSchedule")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="Schedule_ProjectId">{{l("ProjectId")}}</label>
+									<input type="number" id="Schedule_ProjectId" class="form-control" [(ngModel)]="schedule.projectId" name="ProjectId"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="Schedule_StartDate">{{l("StartDate")}}</label>
+									 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="schedule.startDate._d" id="Schedule_StartDate" name="Schedule_StartDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="Schedule_EndDate">{{l("EndDate")}}</label>
+									<input type="text" id="Schedule_EndDate" class="form-control" [(ngModel)]="schedule.endDate" name="EndDate"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Schedule_SiteStatus">{{l("SiteStatus")}}</label>
+									<select class="form-control" name="SiteStatus" id="Schedule_SiteStatus" [(ngModel)]="schedule.siteStatus">
+									<option value="0">{{l('NotAvailable')}}</option>
+
+									<option value="1">{{l('Admin')}}</option>
+
+									<option value="2">{{l('Offline')}}</option>
+
+									<option value="3">{{l('Online')}}</option>
+
+									<option value="4">{{l('Targeted')}}</option>
+
+
+									</select>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="Schedule_IsForced" class="m-checkbox">
+										<input id="Schedule_IsForced" type="checkbox" name="IsForced" [(ngModel)]="schedule.isForced"> 
+										{{l("IsForced")}}
+										<span></span>
+									</label>
+								</div>
+					
+								<div class="form-group">
+									<label for="Schedule_Priority">{{l("Priority")}}</label>
+									<input type="number" id="Schedule_Priority" class="form-control" [(ngModel)]="schedule.priority" name="Priority"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!scheduleForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
